@@ -54,18 +54,17 @@ func CreateCareGiverCareReceipentPairHandler(w http.ResponseWriter, r *http.Requ
 		FirstName:               gofakeit.FirstName(),
 		LastName:                gofakeit.LastName(),
 		Email:                   gofakeit.Email(),
+		AuthorizedCareGiverIds:  make(map[string]bool),
 		CapabilityPermissionMap: make(map[string]models.CapabilityPermissionSet),
 	}
 
 	cg1 := models.CareGiverModel{
-		ID:        uuid.NewString(),
-		FirstName: gofakeit.FirstName(),
-		LastName:  gofakeit.LastName(),
-		Email:     gofakeit.Email(),
-		Phone:     gofakeit.Phone(),
-		CareReceipentIds: []string{
-			cr1.ID,
-		},
+		ID:               uuid.NewString(),
+		FirstName:        gofakeit.FirstName(),
+		LastName:         gofakeit.LastName(),
+		Email:            gofakeit.Email(),
+		Phone:            gofakeit.Phone(),
+		CareReceipentIds: make(map[string]bool),
 	}
 
 	cap1 := models.CapabilityPermissionSet{
@@ -73,10 +72,19 @@ func CreateCareGiverCareReceipentPairHandler(w http.ResponseWriter, r *http.Requ
 		Name:        "UserProfile",
 		Permissions: []models.Permission{models.Create, models.Read},
 	}
+	cap2 := models.CapabilityPermissionSet{
+		ID:          uuid.NewString(),
+		Name:        "Documents",
+		Permissions: []models.Permission{models.Create, models.Read, models.Delete},
+	}
 
-	cg1.CareReceipentIds = append(cg1.CareReceipentIds, cr1.ID)
-	cr1.AuthorizedCareGiverIds = append(cr1.AuthorizedCareGiverIds, cg1.ID)
+	// cg1.CareReceipentIds = append(cg1.CareReceipentIds, cr1.ID)
+	cg1.CareReceipentIds[cr1.ID] = true
+	// cr1.AuthorizedCareGiverIds = append(cr1.AuthorizedCareGiverIds, cg1.ID)
+	cr1.AuthorizedCareGiverIds[cg1.ID] = true
+
 	cr1.CapabilityPermissionMap[cap1.ID] = cap1
+	cr1.CapabilityPermissionMap[cap2.ID] = cap2
 
 	CareGiverCollection.InsertOne(context.Background(), cg1)
 	CareReceipentCollection.InsertOne(context.Background(), cr1)

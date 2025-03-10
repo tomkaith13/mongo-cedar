@@ -8,5 +8,5 @@ type CareGiverModel struct {
 	Phone     string `bson:"phone"`
 
 	// CRs
-	CareReceipentIds []string `bson:"crIds"`
+	CareReceipentIds map[string]bool `bson:"crIds"`
 }
