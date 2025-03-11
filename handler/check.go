@@ -2,6 +2,7 @@ package handler
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 
 	"github.com/tomkaith13/mongo-cedar/cedar_entity"
@@ -16,7 +17,14 @@ func CheckHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, _ = cedar_entity.GenerateCareGiverEntity(reqBody.Principal)
+	eMap, err := cedar_entity.GenerateCareGiverEntity(reqBody.Principal)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	logger := log.Default()
+	b, err := eMap.MarshalJSON()
+	logger.Printf("eMap: %s", string(b))
 	w.WriteHeader(http.StatusOK)
 
 }

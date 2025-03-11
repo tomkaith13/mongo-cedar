@@ -2,17 +2,17 @@ package cedar_entity
 
 import (
 	"context"
-	"log"
 	"os"
 
 	"github.com/cedar-policy/cedar-go"
+	"github.com/cedar-policy/cedar-go/types"
 	"github.com/tomkaith13/mongo-cedar/models"
 	"github.com/tomkaith13/mongo-cedar/mongo"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
 func GenerateCareGiverEntity(caregiverId string) (cedar.EntityMap, error) {
-	// var eMap cedar.EntityMap
+	var eMap cedar.EntityMap
 
 	mongoURI := os.Getenv("MONGO_URI")
 	client, err := mongo.GetMongoClient(mongoURI)
@@ -27,9 +27,27 @@ func GenerateCareGiverEntity(caregiverId string) (cedar.EntityMap, error) {
 	var caregiver models.CareGiverModel
 	collection.FindOne(context.TODO(), filter).Decode(&caregiver)
 
-	logger := log.Default()
-	logger.Printf("care-giver: %+v", caregiver)
+	eMap = make(cedar.EntityMap)
 
-	return nil, nil
+	var cgEntity types.Entity
+	cgEntity.UID = cedar.NewEntityUID("CareGiver", cedar.String(caregiverId))
+	m := make(types.RecordMap)
+	// m["firstName"] = types.String(caregiver.FirstName)
+	// m["lastName"] = types.String(caregiver.LastName)
+	// m["email"] = types.String(caregiver.Email)
+	// m["phone"] = types.String(caregiver.Phone)
+
+	crs := []types.Value{}
+
+	for cr := range caregiver.CareReceipentIds {
+		crs = append(crs, types.String(cr))
+	}
+
+	m["cr"] = types.NewSet(crs...)
+
+	cgEntity.Attributes = types.NewRecord(m)
+	eMap[cgEntity.UID] = cgEntity
+
+	return eMap, nil
 
 }
