@@ -5,8 +5,8 @@ permit (
 )
 when {
     context.impersonation == true &&
-    principal.cr.contains(context.crId)
+    principal.cr.contains(context.crId)&&
+    context.CRCGActionSet.contains(action.name)
     // &&
-    // context.CRCGActionSet has action
-    // resource in context.CRCGResourceSet
+    // context.CRCGResourceSet.contains(resource.name)
 };

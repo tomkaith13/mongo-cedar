@@ -26,11 +26,18 @@ func CheckHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	// eMap, err = cedar_entity.AddActionEntity(reqBody.Action, eMap)
-	// if err != nil {
-	// 	w.Write(fmt.Append(nil, "Authorized: false"))
-	// 	return
-	// }
+	eMap, err = cedar_entity.AddActionEntity(reqBody.Action, eMap)
+	if err != nil {
+		w.Write(fmt.Append(nil, "Authorized: false"))
+		return
+	}
+
+	eMap, err = cedar_entity.AddResourceEntity(reqBody.Resource, eMap)
+	if err != nil {
+		w.Write(fmt.Append(nil, "Authorized: false"))
+		return
+	}
+
 	logger := log.Default()
 	b, _ := eMap.MarshalJSON()
 	logger.Printf("eMap: %s", string(b))
