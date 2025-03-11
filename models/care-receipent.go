@@ -6,6 +6,7 @@ type CareReceipentModel struct {
 	LastName  string `bson:"lastName"`
 	Email     string `bson:"email"`
 
-	AuthorizedCareGiverIds  map[string]bool                    `bson:"authorizedCareGiverIds"`
-	CapabilityPermissionMap map[string]CapabilityPermissionSet `bson:"capabilityPermissionMap"`
+	AuthorizedCareGiverIds map[string]bool `bson:"authorizedCareGiverIds"`
+	// map[caregiverId][capabilityId]PermSet
+	CapabilityPermissionMap map[string]map[string]CapabilityPermissionSet `bson:"capabilityPermissionMap"`
 }

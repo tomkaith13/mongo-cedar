@@ -25,6 +25,8 @@ func CheckHandler(w http.ResponseWriter, r *http.Request) {
 	logger := log.Default()
 	b, err := eMap.MarshalJSON()
 	logger.Printf("eMap: %s", string(b))
+
+	// fetch care receipents doc to compose context
 	w.WriteHeader(http.StatusOK)
 
 }

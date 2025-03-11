@@ -1,5 +1,5 @@
 permit (
-    principal is CG,
+    principal is CareGiver,
     action,
     resource == Capability::"wallet"
 )
