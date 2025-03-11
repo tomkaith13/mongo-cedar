@@ -7,6 +7,7 @@ import (
 )
 
 var Policy cedar.Policy
+var PolicySet *cedar.PolicySet
 
 const (
 	policyFile = "./policy.cedar"
@@ -26,6 +27,8 @@ func LoadPolicy() error {
 	}
 
 	Policy = policy
+	PolicySet = cedar.NewPolicySet()
+	PolicySet.Add("cg policy", &Policy)
 
 	return nil
 }

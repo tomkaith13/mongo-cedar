@@ -2,11 +2,14 @@ package handler
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 
+	"github.com/cedar-policy/cedar-go"
 	"github.com/tomkaith13/mongo-cedar/cedar_context"
 	"github.com/tomkaith13/mongo-cedar/cedar_entity"
+	"github.com/tomkaith13/mongo-cedar/cedar_policy"
 	"github.com/tomkaith13/mongo-cedar/models"
 )
 
@@ -30,11 +33,24 @@ func CheckHandler(w http.ResponseWriter, r *http.Request) {
 	// fetch care receipents doc to compose context
 	cedarCtx, err := cedar_context.GenerateContext(reqBody.CareReceipentId, reqBody.CareGiverId, reqBody.Resource)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		w.Write(fmt.Append(nil, "Authorized: false"))
 		return
 	}
 	b, _ = cedarCtx.MarshalJSON()
 	logger.Printf("Context: %s", string(b))
+
+	request := cedar.Request{
+		Principal: cedar.NewEntityUID("CareGiver", cedar.String(reqBody.CareGiverId)),
+		Action:    cedar.NewEntityUID("Action", cedar.String(reqBody.Action)),
+		Resource:  cedar.NewEntityUID("Capability", cedar.String(reqBody.Resource)),
+		Context:   *cedarCtx,
+	}
+
+	ok, diag := cedar_policy.PolicySet.IsAuthorized(eMap, request)
+	logger.Printf("Is Authorized: %t", ok)
+	logger.Printf("Diagnostic: %s", diag)
+
+	w.Write(fmt.Appendf(nil, "Authorized: %t", ok))
 
 	w.WriteHeader(http.StatusOK)
 

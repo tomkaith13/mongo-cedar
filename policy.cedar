@@ -1,11 +1,12 @@
 permit (
     principal is CareGiver,
     action,
-    resource == Capability::"wallet"
+    resource == Capability::"UserProfile"
 )
 when {
-    context.crId in principal.cr &&
-    context.CRCGActionSet.contains(action) &&
-    resource in context.CRCGResourceSet
+    principal.cr.contains(context.crId)
+    // &&
+    // context.CRCGActionSet has action
+    // resource in context.CRCGResourceSet
 };
 

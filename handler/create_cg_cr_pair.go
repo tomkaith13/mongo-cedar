@@ -7,7 +7,6 @@ import (
 	"os"
 
 	"github.com/brianvoe/gofakeit/v7"
-	"github.com/google/uuid"
 	"github.com/tomkaith13/mongo-cedar/models"
 	"github.com/tomkaith13/mongo-cedar/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -51,7 +50,7 @@ func CreateCareGiverCareReceipentPairHandler(w http.ResponseWriter, r *http.Requ
 	}
 
 	cr1 := models.CareReceipentModel{
-		ID:                      uuid.NewString(),
+		ID:                      "cr1",
 		FirstName:               gofakeit.FirstName(),
 		LastName:                gofakeit.LastName(),
 		Email:                   gofakeit.Email(),
@@ -60,7 +59,7 @@ func CreateCareGiverCareReceipentPairHandler(w http.ResponseWriter, r *http.Requ
 	}
 
 	cg1 := models.CareGiverModel{
-		ID:               uuid.NewString(),
+		ID:               "cg1",
 		FirstName:        gofakeit.FirstName(),
 		LastName:         gofakeit.LastName(),
 		Email:            gofakeit.Email(),
