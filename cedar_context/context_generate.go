@@ -50,6 +50,7 @@ func GenerateContext(careRecepientId string, caregiverId string, capabilityId st
 		resources = append(resources, types.String(capId))
 	}
 
+	recordMap["impersonation"] = cedar.True
 	recordMap["crId"] = types.String(careRecepientId)
 	recordMap["CRCGActionSet"] = cedar.NewSet(permissions...)
 	recordMap["CRCGResourceSet"] = cedar.NewSet(resources...)

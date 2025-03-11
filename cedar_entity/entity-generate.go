@@ -51,3 +51,15 @@ func GenerateCareGiverEntity(caregiverId string) (cedar.EntityMap, error) {
 	return eMap, nil
 
 }
+
+func AddActionEntity(actionId string, eMap cedar.EntityMap) (cedar.EntityMap, error) {
+
+	var actionEntity types.Entity
+	actionEntity.UID = cedar.NewEntityUID("Action", cedar.String(actionId))
+	m := make(types.RecordMap)
+	m["name"] = types.String(actionId)
+	actionEntity.Attributes = types.NewRecord(m)
+	eMap[actionEntity.UID] = actionEntity
+
+	return eMap, nil
+}
