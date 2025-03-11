@@ -2,6 +2,7 @@ package handler
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"os"
 
@@ -97,7 +98,7 @@ func CreateCareGiverCareReceipentPairHandler(w http.ResponseWriter, r *http.Requ
 		return
 	}
 
-	w.Write(([]byte("Success")))
+	w.Write(([]byte(fmt.Sprintf("caregiver: %s", cg1.ID))))
 	w.WriteHeader(http.StatusOK)
 
 }

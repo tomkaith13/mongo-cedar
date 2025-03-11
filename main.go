@@ -30,6 +30,7 @@ func main() {
 	})
 
 	r.Post("/insert-example", handler.CreateCareGiverCareReceipentPairHandler)
+	r.Post("/check", handler.CheckHandler)
 
 	http.ListenAndServe(":8888", r)
 }
