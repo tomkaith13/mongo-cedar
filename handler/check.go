@@ -45,6 +45,7 @@ func CheckHandler(w http.ResponseWriter, r *http.Request) {
 	// fetch care receipents doc to compose context
 	cedarCtx, err := cedar_context.GenerateContext(reqBody.CareReceipentId, reqBody.CareGiverId, reqBody.Resource)
 	if err != nil {
+		logger.Printf("Error generating context: %s.\nrejecting authz request", err.Error())
 		w.Write(fmt.Append(nil, "Authorized: false"))
 		return
 	}

@@ -66,7 +66,7 @@ func AddActionEntity(actionId string, eMap cedar.EntityMap) (cedar.EntityMap, er
 
 func AddResourceEntity(resourceId string, eMap cedar.EntityMap) (cedar.EntityMap, error) {
 	var resourceEntity types.Entity
-	resourceEntity.UID = cedar.NewEntityUID("Resource", cedar.String(resourceId))
+	resourceEntity.UID = cedar.NewEntityUID("Capability", cedar.String(resourceId))
 	m := make(types.RecordMap)
 	m["name"] = types.String(resourceId)
 	resourceEntity.Attributes = types.NewRecord(m)
