@@ -1,13 +1,13 @@
 package models
 
-type Permission int
+type Permission string
 
 const (
-	Create Permission = iota + 1
-	Read
-	Update
-	Delete
-	All
+	Create Permission = "CREATE"
+	Read   Permission = "READ"
+	Update Permission = "UPDATE"
+	Delete Permission = "DELETE"
+	All    Permission = "ALL"
 )
 
 type CapabilityPermissionSet struct {

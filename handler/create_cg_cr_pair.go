@@ -69,12 +69,12 @@ func CreateCareGiverCareReceipentPairHandler(w http.ResponseWriter, r *http.Requ
 	}
 
 	cap1 := models.CapabilityPermissionSet{
-		ID:          uuid.NewString(),
+		ID:          "UserProfile",
 		Name:        "UserProfile",
 		Permissions: []models.Permission{models.Create, models.Read},
 	}
 	cap2 := models.CapabilityPermissionSet{
-		ID:          uuid.NewString(),
+		ID:          "Documents",
 		Name:        "Documents",
 		Permissions: []models.Permission{models.Create, models.Read, models.Delete},
 	}
