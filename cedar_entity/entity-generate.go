@@ -19,7 +19,6 @@ func GenerateCareGiverEntity(caregiverId string) (cedar.EntityMap, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer client.Disconnect(context.TODO())
 
 	collection := client.Database("mydb").Collection("caregivers")
 

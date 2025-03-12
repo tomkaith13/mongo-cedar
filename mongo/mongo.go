@@ -8,7 +8,12 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
+var MongoClient *mongo.Client
+
 func GetMongoClient(mongoURI string) (*mongo.Client, error) {
+	if MongoClient != nil {
+		return MongoClient, nil
+	}
 	user := os.Getenv("MONGO_INITDB_ROOT_USERNAME")
 	passwd := os.Getenv("MONGO_INITDB_ROOT_PASSWORD")
 	clientOptions := options.Client().ApplyURI(mongoURI).SetAuth(options.Credential{
@@ -25,5 +30,6 @@ func GetMongoClient(mongoURI string) (*mongo.Client, error) {
 	if err != nil {
 		return nil, err
 	}
+	MongoClient = client
 	return client, err
 }

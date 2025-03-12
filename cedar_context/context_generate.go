@@ -3,6 +3,7 @@ package cedar_context
 import (
 	"context"
 	"errors"
+	"fmt"
 	"os"
 
 	"github.com/cedar-policy/cedar-go"
@@ -18,12 +19,13 @@ func GenerateContext(careRecepientId string, caregiverId string, capabilityId st
 	if err != nil {
 		return nil, err
 	}
-	defer client.Disconnect(context.TODO())
 
 	collection := client.Database("mydb").Collection("carereceipents")
 	filter := bson.M{"_id": careRecepientId}
 	var carereceipent models.CareReceipentModel
 	collection.FindOne(context.TODO(), filter).Decode(&carereceipent)
+
+	fmt.Printf("care receipent: %+v\n", carereceipent)
 
 	_, ok := carereceipent.CapabilityPermissionMap[caregiverId]
 	if !ok {
