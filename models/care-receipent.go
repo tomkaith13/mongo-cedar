@@ -7,6 +7,9 @@ type CareReceipentModel struct {
 	Email     string `bson:"email"`
 
 	AuthorizedCareGiverIds map[string]bool `bson:"authorizedCareGiverIds"`
-	// map[caregiverId][capabilityId]PermSet
-	CapabilityPermissionMap map[string]map[string]CapabilityPermissionSet `bson:"capabilityPermissionMap"`
+
+	// CareGiverCapabilityPermissionMap Schema look like this:
+	// We want to assign each care-receipent to assign perms for each caregiver in their system for each capability.
+	// aka map[caregiverId][capabilityId]PermSet
+	CareGiverCapabilityPermissionMap map[string]map[string]CapabilityPermissionSet `bson:"capabilityPermissionMap"`
 }

@@ -27,18 +27,18 @@ func GenerateContext(careRecepientId string, caregiverId string, capabilityId st
 
 	fmt.Printf("care receipent: %+v\n", carereceipent)
 
-	_, ok := carereceipent.CapabilityPermissionMap[caregiverId]
+	_, ok := carereceipent.CareGiverCapabilityPermissionMap[caregiverId]
 	if !ok {
 		return nil, errors.New("No Caregiver found")
 	}
 
-	_, ok = carereceipent.CapabilityPermissionMap[caregiverId][capabilityId]
+	_, ok = carereceipent.CareGiverCapabilityPermissionMap[caregiverId][capabilityId]
 	if !ok {
 		return nil, errors.New("No Capability found")
 	}
 
 	// fetch permission set of a care giver
-	permissionSet := carereceipent.CapabilityPermissionMap[caregiverId][capabilityId]
+	permissionSet := carereceipent.CareGiverCapabilityPermissionMap[caregiverId][capabilityId]
 
 	recordMap := cedar.RecordMap{}
 	permissions := []types.Value{}
@@ -48,7 +48,7 @@ func GenerateContext(careRecepientId string, caregiverId string, capabilityId st
 	}
 
 	resources := []types.Value{}
-	for capId := range carereceipent.CapabilityPermissionMap[caregiverId] {
+	for capId := range carereceipent.CareGiverCapabilityPermissionMap[caregiverId] {
 		resources = append(resources, types.String(capId))
 	}
 
