@@ -31,6 +31,7 @@ func main() {
 	})
 
 	r.Post("/insert-example", handler.CreateCareGiverCareReceipentPairHandler)
+	r.Post("/insert-perf-data", handler.CreatePerfTestSetHandler)
 	r.Post("/check", handler.CheckHandler)
 
 	// testingCedar()
