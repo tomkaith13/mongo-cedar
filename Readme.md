@@ -1,9 +1,10 @@
 # Mongo-Cedar POC
 This POC combines MongoDB and [Cedar Authorization Engine](https://docs.cedarpolicy.com/) to implement the authorization checks for CareGivers(CG) to perform actions on behalf of CareReceipents(CR). The code uses Docker Compose for orchestration and creates 2 apps, one for the hosting Cedar engine and the webserver. The other one hosts MongoDB which is where the data about the entities live.
 
-In this usecase, a CR can assign one or more CGs for managing each Capability and provide them with different Permissions.
+The usecase can be explained as follows:
+A CR can assign one or more CGs for managing each Capability (in this case, UserProfile and Documents) and provide them with different Permissions at the capability level.
 
-Whenever the user invokes a `check` we compose the Cedar Entities and Context in real-time and feed it to the Authz Engine to verify if the data abides by the Policy.
+Whenever the CG invokes a `check` , to check if they have access to a tuple `{cr id, capability id, action}`, we compose the Cedar Entities and Context in real-time and feed it to the Authz Engine to verify if the data abides by the Policy.
 
 ## Entity Relationship Diagram
 ```mermaid
