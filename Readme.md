@@ -37,6 +37,29 @@ curl --location 'localhost:8888/check' --header 'Content-Type: application/json'
 
 **NOTE:** Currently the 2 resources configured are `UserProfile` and `Documents`
 
+## Workflow
+
+```mermaid
+sequenceDiagram
+    actor cg as Care-Giver
+    participant app as webserver
+    participant authz as Cedar
+    participant db as Mongo
+
+    cg ->> app: check if authorized to <br/> tuple {cr,capability,action}
+    app->>db: fetch info about cg-cr-capability mappings
+    db-->>app: data
+    app->>app: compose entity and context
+    app->>authz: isAuthorized() with entity and context
+    authz->>authz: check against policy
+    authz-->>app: result: deny/allow
+    app-->>cg: result
+
+    
+    
+    
+```
+
 ## K6 Data
 We can use k6 to run perf tests.
 Inorder to do this, we need to run the following cURL to setup the perf test data:
