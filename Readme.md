@@ -70,6 +70,7 @@ Inorder to do this, we need to run the following cURL to setup the perf test dat
 ```bash
 curl --location --request POST 'localhost:8888/insert-perf-data'
 ```
+**NOTE** This script will take a bit of time (~3min)
 
 Once that is done, running a `check` would give us this:
 ![alt text](k6/1%20million%20CG-CR.png "Title")
