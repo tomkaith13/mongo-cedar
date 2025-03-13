@@ -38,19 +38,22 @@ curl --location 'localhost:8888/check' --header 'Content-Type: application/json'
 **NOTE:** Currently the 2 resources configured are `UserProfile` and `Documents`
 
 ## Workflow
+How the authz check is meant to happen using `Cedar + Mongo`
 
 ```mermaid
 sequenceDiagram
+    autonumber
     actor cg as Care-Giver
     participant app as webserver
     participant authz as Cedar
     participant db as Mongo
 
+    note right of cg: Assume Mongo and Cedar are already primed with data.
     cg ->> app: check if authorized to <br/> tuple {cr,capability,action}
-    app->>db: fetch info about cg-cr-capability mappings
+    app->>db: fetch info about cg-cr-capability-perm mappings
     db-->>app: data
-    app->>app: compose entity and context
-    app->>authz: isAuthorized() with entity and context
+    app->>app: compose entity and context for cedar to consume
+    app->>authz: isAuthorized() with entities and context <br/> along with the initial tuple
     authz->>authz: check against policy
     authz-->>app: result: deny/allow
     app-->>cg: result
