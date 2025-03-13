@@ -23,7 +23,7 @@ func CheckHandler(w http.ResponseWriter, r *http.Request) {
 
 	eMap, err := cedar_entity.GenerateCareGiverEntity(reqBody.CareGiverId)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		w.Write(fmt.Append(nil, "Authorized: false"))
 		return
 	}
 	eMap, err = cedar_entity.AddActionEntity(reqBody.Action, eMap)

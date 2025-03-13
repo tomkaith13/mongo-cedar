@@ -24,7 +24,10 @@ func GenerateCareGiverEntity(caregiverId string) (cedar.EntityMap, error) {
 
 	filter := bson.M{"_id": caregiverId}
 	var caregiver models.CareGiverModel
-	collection.FindOne(context.TODO(), filter).Decode(&caregiver)
+	err = collection.FindOne(context.TODO(), filter).Decode(&caregiver)
+	if err != nil {
+		return nil, err
+	}
 
 	eMap = make(cedar.EntityMap)
 
