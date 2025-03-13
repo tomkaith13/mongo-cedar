@@ -4,7 +4,7 @@ import { check,sleep } from 'k6';
 
 export const options = {
   vus: 1, 
-  duration: '10s', 
+  duration: '30s', 
 };
 
 const trend1 = new Trend('check_cg_for_access_to_cr', true);
@@ -18,13 +18,13 @@ export default function () {
   let crId = Math.floor(Math.random() * 1000 - 1 + 1) + 1
 
 // console.log("cg" + cgId)
-// console.log("cr" + cgId + crId)
+// console.log("cr" + cgId + "::" + crId)
   
 
   const postUrl = 'http://localhost:8888/check';
   let payload = {
     cg: "cg" +  cgId,
-    cr: "cr" + cgId + crId,
+    cr: "cr" + cgId + "::" + crId,
     action: "READ",
     resource: "UserProfile"
   };

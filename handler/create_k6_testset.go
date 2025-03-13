@@ -2,6 +2,7 @@ package handler
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"os"
 	"strconv"
@@ -27,7 +28,7 @@ func CreatePerfTestSetHandler(w http.ResponseWriter, r *http.Request) {
 	CareGiverCollection := client.Database("mydb").Collection("caregivers")
 	CareReceipentCollection := client.Database("mydb").Collection("carereceipents")
 
-	for i := 1; i < NumOfCGs; i++ {
+	for i := 1; i <= NumOfCGs; i++ {
 
 		cg := models.CareGiverModel{
 			ID:               "cg" + strconv.Itoa(i),
@@ -51,7 +52,7 @@ func CreatePerfTestSetHandler(w http.ResponseWriter, r *http.Request) {
 
 		for j := 1; j <= NumOfCRs; j++ {
 			cr := models.CareReceipentModel{
-				ID:                               "cr" + strconv.Itoa(i) + strconv.Itoa(j),
+				ID:                               "cr" + strconv.Itoa(i) + "::" + strconv.Itoa(j),
 				FirstName:                        gofakeit.FirstName(),
 				LastName:                         gofakeit.LastName(),
 				Email:                            gofakeit.Email(),
@@ -65,10 +66,16 @@ func CreatePerfTestSetHandler(w http.ResponseWriter, r *http.Request) {
 			cr.CareGiverCapabilityPermissionMap[cg.ID][cap1.ID] = cap1
 			cr.CareGiverCapabilityPermissionMap[cg.ID][cap2.ID] = cap2
 
-			CareReceipentCollection.InsertOne(context.Background(), cr)
+			_, err := CareReceipentCollection.InsertOne(context.Background(), cr)
+			if err != nil {
+				fmt.Printf("cr insert of id: %s did not work. error: %s\n", cr.ID, err)
+			}
 		}
 
-		CareGiverCollection.InsertOne(context.Background(), cg)
+		_, err := CareGiverCollection.InsertOne(context.Background(), cg)
+		if err != nil {
+			fmt.Printf("cg insert of id: %s did not work. error got: %s\n", cg.ID, err)
+		}
 
 	}
 

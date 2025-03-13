@@ -38,6 +38,42 @@ curl --location 'localhost:8888/check' --header 'Content-Type: application/json'
 
 **NOTE:** Currently the 2 resources configured are `UserProfile` and `Documents`
 
+### Accessing MongoDB
+```bash
+root@b8b9fa2a5312:/# mongosh
+Current Mongosh Log ID: 67d30f30d3027ee69f584a20
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.4.0
+Using MongoDB:          8.0.5
+Using Mongosh:          2.4.0
+
+For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
+
+
+To help improve our products, anonymous usage data is collected and sent to MongoDB periodically (https://www.mongodb.com/legal/privacy-policy).
+You can opt-out by running the disableTelemetry() command.
+
+test> 
+
+test> 
+
+test> use admin
+switched to db admin
+admin> db.auth('rootuser','rootpass')
+{ ok: 1 }
+admin> use mydb
+switched to db mydb
+
+mydb> show collections
+caregivers
+carereceipents
+
+mydb> db.carereceipents.find().count()
+1000000
+mydb> db.caregivers.find().count()
+100
+mydb> 
+```
+
 ## Workflow
 How the authz check is meant to happen using `Cedar + Mongo`
 
@@ -73,4 +109,4 @@ curl --location --request POST 'localhost:8888/insert-perf-data'
 **NOTE** This script will take a bit of time (~3min) to insert 1M documents.
 
 Once that is done, running a `check` would give us this:
-![alt text](k6/1%20million%20CG-CR.png "Title")
+![alt text](k6/k6-1mil-cr-cg.png "Performance Analysis")
