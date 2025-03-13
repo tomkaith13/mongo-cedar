@@ -11,4 +11,4 @@ restart:
 logs:
 	docker compose logs
 perf:
-	k6 run ./k6/session.js
+	k6 run ./k6/test.js
