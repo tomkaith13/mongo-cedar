@@ -12,10 +12,17 @@ const trend1 = new Trend('check', true);
 
 export default function () {
 
+  let cgId = Math.floor(Math.random() * 100 - 1 + 1) + 1
+  let crId = Math.floor(Math.random() * 10 - 1 + 1) + 1
+
+// console.log("cg" + cgId)
+// console.log("cr" + cgId + crId)
+  
+
   const postUrl = 'http://localhost:8888/check';
   let payload = {
-    cg: "cg1",
-    cr: "cr14",
+    cg: "cg" +  cgId,
+    cr: "cr" + cgId + crId,
     action: "READ",
     resource: "UserProfile"
   };
@@ -27,9 +34,10 @@ export default function () {
   };
 
   const res = http.post(postUrl, JSON.stringify(payload), params);
+  // console.log(res.body)
 
   check(res, {
-    'post status was 200': (r) => r.status === 200,
+    'post status was 200 and check is true': (r) => r.status === 200 && res.body.includes("true"),
   });
   
   if (res.status == 200) {
