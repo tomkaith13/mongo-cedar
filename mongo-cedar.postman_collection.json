@@ -1,0 +1,262 @@
+{
+	"info": {
+		"_postman_id": "fb2fa0ac-8798-4419-a475-690d6376c5f6",
+		"name": "mongo-cedar",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13380006"
+	},
+	"item": [
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "add cg+cr+perms",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8888/insert-example",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"insert-example"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "check",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"cg\": \"cg1\",\n    \"cr\": \"cr1\",\n    \"action\": \"READ\",\n    \"resource\": \"UserProfile\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8888/check",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"check"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "check - update on UserProfile",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cg\": \"cg1\",\n    \"cr\": \"cr1\",\n    \"action\": \"UPDATE\",\n    \"resource\": \"UserProfile\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8888/check",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"check"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Wed, 12 Mar 2025 13:50:01 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "17"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/plain; charset=utf-8"
+						}
+					],
+					"cookie": [],
+					"body": "Authorized: false"
+				},
+				{
+					"name": "check - read on UserProfile",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cg\": \"cg1\",\n    \"cr\": \"cr1\",\n    \"action\": \"READ\",\n    \"resource\": \"UserProfile\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8888/check",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"check"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Wed, 12 Mar 2025 13:50:46 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "16"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/plain; charset=utf-8"
+						}
+					],
+					"cookie": [],
+					"body": "Authorized: true"
+				},
+				{
+					"name": "check - read on Documents",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cg\": \"cg1\",\n    \"cr\": \"cr1\",\n    \"action\": \"READ\",\n    \"resource\": \"Documents\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8888/check",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"check"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Wed, 12 Mar 2025 13:51:09 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "16"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/plain; charset=utf-8"
+						}
+					],
+					"cookie": [],
+					"body": "Authorized: true"
+				},
+				{
+					"name": "check - update on Documents",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cg\": \"cg1\",\n    \"cr\": \"cr1\",\n    \"action\": \"UPDATE\",\n    \"resource\": \"Documents\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8888/check",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"check"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Wed, 12 Mar 2025 13:51:39 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "17"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/plain; charset=utf-8"
+						}
+					],
+					"cookie": [],
+					"body": "Authorized: false"
+				}
+			]
+		},
+		{
+			"name": "insert-perf-data",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8888/insert-perf-data",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"insert-perf-data"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

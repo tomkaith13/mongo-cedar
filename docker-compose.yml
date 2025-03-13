@@ -4,9 +4,9 @@ services:
   app:
     build: .       # Build the Go app from a Dockerfile in the current directory
     ports:
-      - 8888:8888  # Expose port 8080 for the Go app
+      - 8888:8888  # Expose port 8888 for the Go app
     environment:
-      - MONGO_URI=mongodb://mongodb:27017/mydatabase  # Set the MongoDB connection string
+      - MONGO_URI=mongodb://mongodb:27017/mydatabase  # Set the MongoDB connection string and other details
       - MONGO_INITDB_ROOT_USERNAME=rootuser
       - MONGO_INITDB_ROOT_PASSWORD=rootpass
     depends_on:

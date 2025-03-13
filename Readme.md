@@ -39,6 +39,7 @@ curl --location 'localhost:8888/check' --header 'Content-Type: application/json'
 **NOTE:** Currently the 2 resources configured are `UserProfile` and `Documents`
 
 ### Accessing MongoDB
+ssh into the mongodb container and do the following:
 ```bash
 root@b8b9fa2a5312:/# mongosh
 Current Mongosh Log ID: 67d30f30d3027ee69f584a20
