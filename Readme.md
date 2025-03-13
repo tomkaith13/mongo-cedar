@@ -100,7 +100,7 @@ sequenceDiagram
     
 ```
 
-## K6 Data
+## Performance Analysis Using K6
 We can use k6 to run perf tests.
 Inorder to do this, we need to run the following cURL to setup the perf test data:
 ```bash
