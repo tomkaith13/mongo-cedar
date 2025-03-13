@@ -27,7 +27,7 @@ func CreatePerfTestSetHandler(w http.ResponseWriter, r *http.Request) {
 	CareGiverCollection := client.Database("mydb").Collection("caregivers")
 	CareReceipentCollection := client.Database("mydb").Collection("carereceipents")
 
-	for i := 0; i < NumOfCGs; i++ {
+	for i := 1; i < NumOfCGs; i++ {
 
 		cg := models.CareGiverModel{
 			ID:               "cg" + strconv.Itoa(i),

@@ -4,16 +4,18 @@ import { check,sleep } from 'k6';
 
 export const options = {
   vus: 1, 
-  duration: '30s', 
+  duration: '10s', 
 };
 
-const trend1 = new Trend('check', true);
+const trend1 = new Trend('check_cg_for_access_to_cr', true);
 
 
 export default function () {
 
-  let cgId = Math.floor(Math.random() * 100 - 1 + 1) + 1
-  let crId = Math.floor(Math.random() * 10 - 1 + 1) + 1
+  //  random number from 1 - 10
+  let cgId = Math.floor(Math.random() * 10 - 1 + 1) + 1
+  // random number from 1 to 1000
+  let crId = Math.floor(Math.random() * 1000 - 1 + 1) + 1
 
 // console.log("cg" + cgId)
 // console.log("cr" + cgId + crId)
