@@ -6,7 +6,13 @@ In this usecase, a CR can assign one or more CGs for managing each Capability an
 Whenever the user invokes a `check` we compose the Cedar Entities and Context in real-time and feed it to the Authz Engine to verify if the data abides by the Policy.
 
 ## Entity Relationship Diagram
-Explains how the entities are setup
+```mermaid
+erDiagram
+    CARE-GIVER }|--|{ CARE-RECEIPENT : has
+    CARE-RECEIPENT }o--|{ CAPABILITY : accesses
+    CAPABILITY ||--|{ PERMISSION-SET: has
+    CARE-GIVER ||--|| PERMISSION-SET: has
+```
 
 TODO: Add mermaid ERD
 ## Instructions
