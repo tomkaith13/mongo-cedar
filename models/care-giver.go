@@ -13,7 +13,6 @@ type CareGiverModel struct {
 
 	PlatformUID string `bson:"pid"`
 
-	// PII store for guests; non-guests PII can be looked up using PUID
 	FirstName string `bson:"firstName"`
 	LastName  string `bson:"lastName"`
 	Email     string `bson:"email"`
@@ -22,6 +21,6 @@ type CareGiverModel struct {
 	// CRs set
 	CareReceipentIds map[string]bool `bson:"crIds"`
 
-	//inviteStatusMap per CR
+	//inviteStatusMap per map[CrID]
 	CareReceipentInviteMap map[string]InviteStatus `bson:"crInviteStatus"`
 }
