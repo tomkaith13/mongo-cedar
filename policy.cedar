@@ -10,3 +10,16 @@ when {
     context.CRCGActionSet.contains(action.name) &&
     context.CRCGResourceSet.contains(resource.name)
 };
+
+// WIP
+permit (
+    principal is CareGiver, 
+    action, 
+    resource
+)
+when {
+    context has impersonation &&
+    context.impersonation == false &&
+    principal has OwnResourceSet &&
+    principal.OwnResourceSet.contains(resource.name)
+};

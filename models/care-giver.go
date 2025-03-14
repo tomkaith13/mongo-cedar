@@ -23,4 +23,7 @@ type CareGiverModel struct {
 
 	//inviteStatusMap per map[CrID]
 	CareReceipentInviteMap map[string]InviteStatus `bson:"crInviteStatus"`
+
+	// Care givers can have their own resources when not impersonating
+	AllowedResourceIds map[string]bool `bson:"allowed_resources"`
 }

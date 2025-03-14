@@ -38,6 +38,7 @@ func CreatePerfTestSetHandler(w http.ResponseWriter, r *http.Request) {
 			Phone:                  gofakeit.Phone(),
 			CareReceipentIds:       make(map[string]bool),
 			CareReceipentInviteMap: make(map[string]models.InviteStatus),
+			AllowedResourceIds:     make(map[string]bool),
 		}
 
 		cap1 := models.CapabilityPermissionSet{
@@ -74,6 +75,7 @@ func CreatePerfTestSetHandler(w http.ResponseWriter, r *http.Request) {
 				fmt.Printf("cr insert of id: %s did not work. error: %s\n", cr.ID, err)
 			}
 		}
+		cg.AllowedResourceIds["HomePage"] = true
 
 		_, err := CareGiverCollection.InsertOne(context.Background(), cg)
 		if err != nil {

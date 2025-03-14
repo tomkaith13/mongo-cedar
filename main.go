@@ -33,6 +33,7 @@ func main() {
 	r.Post("/insert-example", handler.CreateCareGiverCareReceipentPairHandler)
 	r.Post("/insert-perf-data", handler.CreatePerfTestSetHandler)
 	r.Post("/check", handler.CheckHandler)
+	r.Post("/check-self", handler.CheckSelfHandler)
 
 	// testingCedar()
 
@@ -41,11 +42,13 @@ func main() {
 
 // func testingCedar() {
 // 	const policyCedar = `
+// permit (principal == User::"bob",action,resource);
 // permit (
-//     principal,
-//     action,
-//     resource
-//     );
+// 	principal == User::"alice",
+// 	action == Action::"view",
+// 	resource in Album::"jane_vacation"
+//   );
+
 // `
 
 // 	const entitiesJSON = `[
@@ -55,11 +58,15 @@ func main() {
 //     "parents": []
 //   },
 //   {
+//     "uid": { "type": "User", "id": "bob" },
+//     "attrs": { "age": 18 },
+//     "parents": []
+//   },
+//   {
 //     "uid": { "type": "Photo", "id": "VacationPhoto94.jpg" },
 //     "attrs": {},
 //     "parents": [{ "type": "Album", "id": "jane_vacation" }]
 //   }
-
 // ]`
 
 // 	var policy cedar.Policy
@@ -76,8 +83,8 @@ func main() {
 // 	}
 
 // 	req := cedar.Request{
-// 		Principal: cedar.NewEntityUID("User", "alice"),
-// 		Action:    cedar.NewEntityUID("Action", "READ"),
+// 		Principal: cedar.NewEntityUID("User", "bob"),
+// 		Action:    cedar.NewEntityUID("Action", "view"),
 // 		Resource:  cedar.NewEntityUID("Photo", "VacationPhoto94.jpg"),
 // 		Context: cedar.NewRecord(cedar.RecordMap{
 // 			"demoRequest": cedar.True,

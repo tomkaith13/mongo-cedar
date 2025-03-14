@@ -36,13 +36,21 @@ func GenerateCareGiverEntity(caregiverId string, carereceipentId string) (cedar.
 	m := make(types.RecordMap)
 
 	crs := []types.Value{}
-
 	for cr := range caregiver.CareReceipentIds {
 		crs = append(crs, types.String(cr))
 	}
-
 	m["cr"] = types.NewSet(crs...)
-	m["status"] = types.String(caregiver.CareReceipentInviteMap[carereceipentId])
+
+	allowedCaps := []types.Value{}
+	for cap := range caregiver.AllowedResourceIds {
+		allowedCaps = append(allowedCaps, types.String(cap))
+
+	}
+	m["OwnResourceSet"] = types.NewSet(allowedCaps...)
+
+	if carereceipentId != "" {
+		m["status"] = types.String(caregiver.CareReceipentInviteMap[carereceipentId])
+	}
 
 	cgEntity.Attributes = types.NewRecord(m)
 	eMap[cgEntity.UID] = cgEntity
