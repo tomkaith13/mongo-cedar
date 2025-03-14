@@ -90,7 +90,7 @@ sequenceDiagram
 
     note right of cg: Assume Mongo and Cedar are already primed with data.
     cg ->> app: check if authorized to <br/> tuple {cr,capability,action}
-    app->>db: fetch info about cg-cr-capability-perm mappings
+    app->>db: fetch info about cg-cr-capability-perm mappings <br/> from user collection
     db-->>app: data
     app->>app: compose entity and context for cedar to consume
     app->>authz: isAuthorized() with entities and context <br/> along with the initial tuple
