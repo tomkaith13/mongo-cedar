@@ -11,6 +11,8 @@ const (
 type CareGiverModel struct {
 	ID string `bson:"_id"`
 
+	PlatformUID string `bson:"pid"`
+
 	// PII store for guests; non-guests PII can be looked up using PUID
 	FirstName string `bson:"firstName"`
 	LastName  string `bson:"lastName"`
