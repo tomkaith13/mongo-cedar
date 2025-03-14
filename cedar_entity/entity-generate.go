@@ -11,7 +11,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-func GenerateCareGiverEntity(caregiverId string) (cedar.EntityMap, error) {
+func GenerateCareGiverEntity(caregiverId string, carereceipentId string) (cedar.EntityMap, error) {
 	var eMap cedar.EntityMap
 
 	mongoURI := os.Getenv("MONGO_URI")
@@ -34,10 +34,6 @@ func GenerateCareGiverEntity(caregiverId string) (cedar.EntityMap, error) {
 	var cgEntity types.Entity
 	cgEntity.UID = cedar.NewEntityUID("CareGiver", cedar.String(caregiverId))
 	m := make(types.RecordMap)
-	// m["firstName"] = types.String(caregiver.FirstName)
-	// m["lastName"] = types.String(caregiver.LastName)
-	// m["email"] = types.String(caregiver.Email)
-	// m["phone"] = types.String(caregiver.Phone)
 
 	crs := []types.Value{}
 
@@ -46,6 +42,7 @@ func GenerateCareGiverEntity(caregiverId string) (cedar.EntityMap, error) {
 	}
 
 	m["cr"] = types.NewSet(crs...)
+	m["status"] = types.String(caregiver.CareReceipentInviteMap[carereceipentId])
 
 	cgEntity.Attributes = types.NewRecord(m)
 	eMap[cgEntity.UID] = cgEntity

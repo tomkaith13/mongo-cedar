@@ -59,12 +59,13 @@ func CreateCareGiverCareReceipentPairHandler(w http.ResponseWriter, r *http.Requ
 	}
 
 	cg1 := models.CareGiverModel{
-		ID:               "cg1",
-		FirstName:        gofakeit.FirstName(),
-		LastName:         gofakeit.LastName(),
-		Email:            gofakeit.Email(),
-		Phone:            gofakeit.Phone(),
-		CareReceipentIds: make(map[string]bool),
+		ID:                     "cg1",
+		FirstName:              gofakeit.FirstName(),
+		LastName:               gofakeit.LastName(),
+		Email:                  gofakeit.Email(),
+		Phone:                  gofakeit.Phone(),
+		CareReceipentIds:       make(map[string]bool),
+		CareReceipentInviteMap: make(map[string]models.InviteStatus),
 	}
 
 	cap1 := models.CapabilityPermissionSet{
@@ -79,6 +80,8 @@ func CreateCareGiverCareReceipentPairHandler(w http.ResponseWriter, r *http.Requ
 	}
 
 	cg1.CareReceipentIds[cr1.ID] = true
+	cg1.CareReceipentInviteMap[cr1.ID] = models.Accepted
+
 	cr1.AuthorizedCareGiverIds[cg1.ID] = true
 
 	cr1.CareGiverCapabilityPermissionMap[cg1.ID] = make(map[string]models.CapabilityPermissionSet)

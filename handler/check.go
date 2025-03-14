@@ -21,7 +21,7 @@ func CheckHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	eMap, err := cedar_entity.GenerateCareGiverEntity(reqBody.CareGiverId)
+	eMap, err := cedar_entity.GenerateCareGiverEntity(reqBody.CareGiverId, reqBody.CareReceipentId)
 	if err != nil {
 		w.Write(fmt.Append(nil, "Authorized: false"))
 		return
