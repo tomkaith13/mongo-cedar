@@ -112,4 +112,4 @@ curl --location --request POST 'localhost:8888/insert-perf-data'
 Once that is done, running a `check` would give us this:
 ![alt text](k6/k6-1mil-cr-cg.png "Performance Analysis")
 
-As you can see `P50` is around `~10ms`.
+As you can see `P50` is around `~13ms`.

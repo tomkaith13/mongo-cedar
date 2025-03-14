@@ -31,12 +31,13 @@ func CreatePerfTestSetHandler(w http.ResponseWriter, r *http.Request) {
 	for i := 1; i <= NumOfCGs; i++ {
 
 		cg := models.CareGiverModel{
-			ID:               "cg" + strconv.Itoa(i),
-			FirstName:        gofakeit.FirstName(),
-			LastName:         gofakeit.LastName(),
-			Email:            gofakeit.Email(),
-			Phone:            gofakeit.Phone(),
-			CareReceipentIds: make(map[string]bool),
+			ID:                     "cg" + strconv.Itoa(i),
+			FirstName:              gofakeit.FirstName(),
+			LastName:               gofakeit.LastName(),
+			Email:                  gofakeit.Email(),
+			Phone:                  gofakeit.Phone(),
+			CareReceipentIds:       make(map[string]bool),
+			CareReceipentInviteMap: make(map[string]models.InviteStatus),
 		}
 
 		cap1 := models.CapabilityPermissionSet{
@@ -60,6 +61,8 @@ func CreatePerfTestSetHandler(w http.ResponseWriter, r *http.Request) {
 				CareGiverCapabilityPermissionMap: make(map[string]map[string]models.CapabilityPermissionSet),
 			}
 			cg.CareReceipentIds[cr.ID] = true
+			cg.CareReceipentInviteMap[cr.ID] = models.Accepted
+
 			cr.AuthorizedCareGiverIds[cg.ID] = true
 
 			cr.CareGiverCapabilityPermissionMap[cg.ID] = make(map[string]models.CapabilityPermissionSet)
