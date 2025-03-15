@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/cedar-policy/cedar-go"
 	"github.com/tomkaith13/mongo-cedar/cedar_context"
@@ -38,19 +39,18 @@ func CheckHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	logger := log.Default()
 	b, _ := eMap.MarshalJSON()
-	logger.Printf("eMap: %s", string(b))
+	fmt.Printf("eMap: %s", string(b))
 
 	// fetch care receipents doc to compose context
 	cedarCtx, err := cedar_context.GenerateContext(reqBody.CareReceipentId, reqBody.CareGiverId, reqBody.Resource)
 	if err != nil {
-		logger.Printf("Error generating context: %s.\nrejecting authz request", err.Error())
+		fmt.Printf("Error generating context: %s.\nrejecting authz request", err.Error())
 		w.Write(fmt.Append(nil, "Authorized: false"))
 		return
 	}
 	b, _ = cedarCtx.MarshalJSON()
-	logger.Printf("Context: %s", string(b))
+	fmt.Printf("Context: %s", string(b))
 
 	request := cedar.Request{
 		Principal: cedar.NewEntityUID("CareGiver", cedar.String(reqBody.CareGiverId)),
@@ -60,11 +60,64 @@ func CheckHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	ok, diag := cedar_policy.PolicySet.IsAuthorized(eMap, request)
-	logger.Printf("Is Authorized: %t", ok)
-	logger.Printf("Diagnostic: %s", diag)
+	fmt.Printf("Is Authorized: %t", ok)
+	fmt.Printf("Diagnostic: %+v", diag)
 
 	w.Write(fmt.Appendf(nil, "Authorized: %t", ok))
 
 	w.WriteHeader(http.StatusOK)
+
+}
+
+func testPolicies() {
+
+	b, err := os.ReadFile("./../policy.cedar")
+	if err != nil {
+		return
+	}
+
+	PolicySet, err := cedar.NewPolicySetFromBytes("./../policy.cedar", b)
+	if err != nil {
+		return
+	}
+
+	b, err = PolicySet.MarshalJSON()
+	if err != nil {
+		return
+	}
+	fmt.Printf("policies: %s\n", string(b))
+
+	const entitiesJSON = `[
+  {
+    "uid": { "type": "CareGiver", "id": "cg1" },
+    "attrs": { "OwnResourceSet": ["HomePage"] },
+    "parents": []
+  },
+  {
+    "uid": { "type": "Capability", "id": "HomePage" },
+    "attrs": { "name": "HomePage" },
+    "parents": []
+  }
+]`
+
+	var entities cedar.EntityMap
+	if err := json.Unmarshal([]byte(entitiesJSON), &entities); err != nil {
+		log.Fatal(err)
+	}
+
+	req := cedar.Request{
+		Principal: cedar.NewEntityUID("CareGiver", "cg1"),
+		Action:    cedar.NewEntityUID("Action", "view"),
+		Resource:  cedar.NewEntityUID("Capability", "HomePage"),
+		Context: cedar.NewRecord(cedar.RecordMap{
+			"impersonation": cedar.False,
+		}),
+	}
+
+	fmt.Println("------start--------")
+
+	ok, diag := PolicySet.IsAuthorized(entities, req)
+	fmt.Println(ok)
+	fmt.Println(diag)
 
 }

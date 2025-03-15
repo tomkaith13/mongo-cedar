@@ -3,7 +3,6 @@ package handler
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/cedar-policy/cedar-go"
@@ -37,9 +36,8 @@ func CheckSelfHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	logger := log.Default()
 	b, _ := eMap.MarshalJSON()
-	logger.Printf("eMap: %s", string(b))
+	fmt.Printf("eMap: %s", string(b))
 
 	rm := cedar.RecordMap{}
 	rm["impersonation"] = cedar.False
@@ -47,7 +45,7 @@ func CheckSelfHandler(w http.ResponseWriter, r *http.Request) {
 
 	b, _ = record.MarshalJSON()
 
-	logger.Printf("context: %s\n", string(b))
+	fmt.Printf("context: %s\n", string(b))
 
 	request := cedar.Request{
 		Principal: cedar.NewEntityUID("CareGiver", cedar.String(reqBody.CareGiverId)),
@@ -57,8 +55,8 @@ func CheckSelfHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	ok, diag := cedar_policy.PolicySet.IsAuthorized(eMap, request)
-	logger.Printf("Is Authorized: %t", ok)
-	logger.Printf("Diagnostic: %s", diag)
+	fmt.Printf("Is Authorized: %t", ok)
+	fmt.Printf("Diagnostic: %v", diag)
 
 	w.Write(fmt.Appendf(nil, "Authorized: %t", ok))
 
