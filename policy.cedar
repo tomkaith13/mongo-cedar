@@ -11,7 +11,8 @@ when {
     context.CRCGResourceSet.contains(resource.name)
 };
 
-// WIP
+// This Policy is for CareGivers accessing their own resources.
+// while not impersonating CareReceipents.
 permit (
     principal is CareGiver, 
     action, 
