@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -16,15 +15,6 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-
-	p, err := cedar_policy.Policy.MarshalJSON()
-
-	if err != nil {
-		panic(err)
-	}
-
-	logger := log.Default()
-	logger.Printf("Policy: %s\n", p)
 
 	r.Get("/hello", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Hello World"))
