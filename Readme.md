@@ -9,7 +9,6 @@ Whenever the CG invokes a `check` , to check if they have access to a tuple `{cr
 ## Entity Relationship Diagram
 ```mermaid
 erDiagram
-    direction LR
     PLATFORM_USER ||--|{ CARE-GIVER: has
     PLATFORM_USER ||--|| CARE-RECEIPENT: is
     CARE-GIVER }|--|{ CARE-RECEIPENT : has
