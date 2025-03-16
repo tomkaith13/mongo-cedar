@@ -12,12 +12,10 @@ erDiagram
     PLATFORM_USER ||--|{ CARE-GIVER: has
     PLATFORM_USER ||--|| CARE-RECEIPENT: is
     CARE-GIVER }|--|{ CARE-RECEIPENT : has
-    CARE-RECEIPENT }o--|{ CAPABILITY : accesses
-    CAPABILITY ||--|{ PERMISSION-SET: has
-    CARE-GIVER ||--|| PERMISSION-SET: has
+    CARE-RECEIPENT ||--|{ CAPABILITY : accesses
+    CAPABILITY ||--|| PERMISSION-SET: has
+    CARE-GIVER ||--|{ CAPABILITY: has
 ```
-
-TODO: Add mermaid ERD
 ## Instructions
 Use instructions in `Makefile` to start the service
 ```bash
