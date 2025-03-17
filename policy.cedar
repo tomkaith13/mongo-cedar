@@ -1,3 +1,4 @@
+@policy_desc("This policy is used whenever a CG impersonates as a CR and accesses resources")
 permit (
     principal is CareGiver,
     action,
@@ -11,8 +12,7 @@ when {
     context.CRCGResourceSet.contains(resource.name)
 };
 
-// This Policy is for CareGivers accessing their own resources.
-// while not impersonating CareReceipents.
+@policy_desc("This Policy is for CareGivers accessing their own resources while not impersonating.")
 permit (
     principal is CareGiver, 
     action, 
