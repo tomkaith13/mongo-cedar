@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -12,6 +13,10 @@ import (
 	"github.com/tomkaith13/mongo-cedar/cedar_entity"
 	"github.com/tomkaith13/mongo-cedar/cedar_policy"
 	"github.com/tomkaith13/mongo-cedar/models"
+	"github.com/tomkaith13/mongo-cedar/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/mongo/readconcern"
+	"go.mongodb.org/mongo-driver/mongo/writeconcern"
 )
 
 func CheckHandler(w http.ResponseWriter, r *http.Request) {
@@ -19,6 +24,35 @@ func CheckHandler(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&reqBody)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	mongoURI := os.Getenv("MONGO_URI")
+	client, err := mongo.GetMongoClient(mongoURI)
+	if err != nil {
+		w.Write([]byte("Unable to connect to mongo" + err.Error()))
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	// transaction options for cluster
+	wc := writeconcern.Majority()
+	rc := readconcern.Snapshot()
+	txnOpts := options.Transaction().SetWriteConcern(wc).SetReadConcern(rc)
+
+	session, err := client.StartSession()
+	if err != nil {
+		w.Write([]byte("Unable to start session"))
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	defer session.EndSession(context.Background())
+
+	err = session.StartTransaction(txnOpts)
+	if err != nil {
+		defer session.AbortTransaction(context.Background())
+		w.Write([]byte("Unable to start transaction"))
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
@@ -51,6 +85,13 @@ func CheckHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	b, _ = cedarCtx.MarshalJSON()
 	fmt.Printf("Context: %s", string(b))
+	err = session.CommitTransaction(context.Background())
+	if err != nil {
+		defer session.AbortTransaction(context.Background())
+		w.Write([]byte("Unable to commit transaction"))
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 
 	request := cedar.Request{
 		Principal: cedar.NewEntityUID("CareGiver", cedar.String(reqBody.CareGiverId)),
